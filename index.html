@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВОЛЯ | ГП | Tales of Zone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #1a7a3a;
+            --accent-green: #2ecc71;
+            --bright-green: #39ff14;
+            --dark-green: #0d3b1e;
+            --deep-black: #050805;
+            --soft-black: #0a100c;
+            --glass-bg: rgba(10, 25, 15, 0.65);
+            --glass-border: rgba(46, 204, 113, 0.25);
+            --text-main: #e8f5e9;
+            --text-muted: #a5d6a7;
+            --gold-accent: #c9a227;
+            --danger-red: #c0392b;
+            --neutral-gray: #7f8c8d;
+            --shadow-glow: 0 0 30px rgba(46, 204, 113, 0.3);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Exo 2', 'Rajdhani', sans-serif;
+            background-color: var(--deep-black);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===== CUSTOM SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--soft-black);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary-green), var(--accent-green));
+            border-radius: 5px;
+            border: 2px solid var(--soft-black);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bright-green);
+        }
+
+        /* ===== BACKGROUND & PARTICLES ===== */
+        .bg-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://stalker-news.info/wp-content/uploads/2026/07/freedom-Cfe3hfHW.jpg') center center / cover no-repeat;
+            filter: brightness(0.35) contrast(1.1) saturate(0.9);
+            transform: scale(1.05);
+            animation: bgSubtleMove 40s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgSubtleMove {
+            0% { transform: scale(1.05) translate(0, 0); }
+            50% { transform: scale(1.08) translate(-1%, 1%); }
+            100% { transform: scale(1.05) translate(1%, -1%); }
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(26, 122, 58, 0.25) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(13, 59, 30, 0.35) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(5, 8, 5, 0.7) 0%, rgba(5, 8, 5, 0.85) 50%, rgba(5, 8, 5, 0.95) 100%);
+        }
+
+        #particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: var(--transition-smooth);
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(5, 12, 8, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(46, 204, 113, 0.1);
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .nav-logo img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-green);
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-logo:hover img {
+            transform: rotate(8deg) scale(1.08);
+            box-shadow: 0 0 25px rgba(57, 255, 20, 0.6);
+        }
+
+        .nav-logo span {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--bright-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            transition: var(--transition-smooth);
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--bright-green);
+            transition: var(--transition-smooth);
+            transform: translateX(-50%);
+            box-shadow: 0 0 8px var(--bright-green);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--bright-green);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            width: 60%;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-toggle span {
+            width: 28px;
+            height: 2px;
+            background: var(--accent-green);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 6rem 2rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            text-align: center;
+            z-index: 10;
+            animation: heroFadeIn 1.4s ease-out forwards;
+        }
+
+        @keyframes heroFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-logo-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .hero-logo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-green);
+            box-shadow: 
+                0 0 40px rgba(46, 204, 113, 0.5),
+                0 0 80px rgba(46, 204, 113, 0.2),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+            animation: logoPulse 4s ease-in-out infinite;
+            transition: var(--transition-smooth);
+        }
+
+        .hero-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 60px rgba(57, 255, 20, 0.7),
+                0 0 120px rgba(46, 204, 113, 0.3);
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { box-shadow: 0 0 40px rgba(46, 204, 113, 0.5), 0 0 80px rgba(46, 204, 113, 0.2); }
+            50% { box-shadow: 0 0 60px rgba(57, 255, 20, 0.7), 0 0 100px rgba(46, 204, 113, 0.35); }
+        }
+
+        .hero-logo-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 220px;
+            height: 220px;
+            border: 2px dashed rgba(46, 204, 113, 0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: ringRotate 20s linear infinite;
+        }
+
+        .hero-logo-ring-2 {
+            width: 260px;
+            height: 260px;
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            animation: ringRotate 30s linear infinite reverse;
+        }
+
+        @keyframes ringRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3.5rem, 10vw, 6.5rem);
+            font-weight: 900;
+            letter-spacing: 12px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-green) 40%, var(--bright-green) 70%, #ffffff 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleShine 6s linear infinite;
+            text-shadow: 0 0 40px rgba(46, 204, 113, 0.3);
+            position: relative;
+        }
+
+        @keyframes titleShine {
+            to { background-position: 200% center; }
+        }
+
+        .hero-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            color: var(--text-main);
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1.3rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-smooth);
+        }
+
+        .badge:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--bright-green);
+            box-shadow: 0 0 8px var(--bright-green);
+            animation: dotBlink 2s ease-in-out infinite;
+        }
+
+        @keyframes dotBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1rem 2.2rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.35);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(46, 204, 113, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-green);
+            border: 2px solid var(--accent-green);
+        }
+
+        .btn-outline:hover {
+            background: rgba(46, 204, 113, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 0 25px rgba(46, 204, 113, 0.3);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            animation: scrollBounce 2.5s ease-in-out infinite;
+        }
+
+        .scroll-indicator .arrow {
+            width: 24px;
+            height: 24px;
+            border-right: 2px solid var(--accent-green);
+            border-bottom: 2px solid var(--accent-green);
+            transform: rotate(45deg);
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+            50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
+        }
+
+        /* ===== SECTION COMMON ===== */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            padding: 0.3rem 1rem;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            border-radius: 20px;
+            background: rgba(46, 204, 113, 0.08);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .section-title span {
+            color: var(--accent-green);
+        }
+
+        .section-desc {
+            max-width: 650px;
+            margin: 0 auto;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* ===== GLASS CARDS ===== */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            padding: 2rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(46, 204, 113, 0.5);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-6px);
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        /* ===== ABOUT / HISTORY ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+
+        .about-text p {
+            margin-bottom: 1.3rem;
+        }
+
+        .about-text strong {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .about-highlight {
+            background: linear-gradient(135deg, rgba(26, 122, 58, 0.2), rgba(13, 59, 30, 0.3));
+            border-left: 4px solid var(--accent-green);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .info-blocks {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .info-block {
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 15px rgba(26, 122, 58, 0.4);
+        }
+
+        .info-block h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            color: var(--accent-green);
+        }
+
+        .info-block p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ===== RELATIONS ===== */
+        .relations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .relation-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .relation-card .status {
+            display: inline-block;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+        }
+
+        .status-enemy {
+            background: rgba(192, 57, 43, 0.2);
+            color: #e74c3c;
+            border: 1px solid rgba(192, 57, 43, 0.4);
+        }
+
+        .status-neutral {
+            background: rgba(127, 140, 141, 0.2);
+            color: #bdc3c7;
+            border: 1px solid rgba(127, 140, 141, 0.4);
+        }
+
+        .status-friend {
+            background: rgba(46, 204, 113, 0.2);
+            color: var(--accent-green);
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+
+        .relation-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .relation-card ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .relation-card li {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* ===== SERVER SECTION ===== */
+        .server-section {
+            background: linear-gradient(180deg, transparent, rgba(13, 59, 30, 0.15), transparent);
+        }
+
+        .server-card {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2.5rem;
+            align-items: center;
+            padding: 2.5rem;
+        }
+
+        .server-logo-box {
+            text-align: center;
+        }
+
+        .server-logo-box img {
+            width: 160px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--glass-border);
+            transition: var(--transition-smooth);
+        }
+
+        .server-logo-box img:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-green);
+        }
+
+        .server-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .server-info .server-name {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .server-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 0.9rem 1.2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-item label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-item span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--bright-green);
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-green);
+            color: #000;
+        }
+
+        /* ===== COMPOSITION (СКЛАД) ===== */
+        .composition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .member-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .member-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
+            margin: 0 auto 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border: 3px solid var(--accent-green);
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
+            position: relative;
+        }
+
+        .member-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1px dashed rgba(46, 204, 113, 0.4);
+            animation: ringRotate 15s linear infinite;
+        }
+
+        .member-card h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .member-role {
+            color: var(--accent-green);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+
+        .member-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .placeholder-note {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-style: italic;
+            grid-column: 1 / -1;
+        }
+
+        /* ===== TRADE SECTION ===== */
+        .trade-section {
+            background: linear-gradient(180deg, transparent, rgba(26, 122, 58, 0.08), transparent);
+        }
+
+        .trade-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .trade-card {
+            text-align: center;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .trade-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 8px 30px rgba(46, 204, 113, 0.4);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .trade-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+
+        .trade-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 280px;
+        }
+
+        .btn-trade {
+            width: 100%;
+            max-width: 260px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid var(--glass-border);
+            background: rgba(5, 8, 5, 0.9);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-brand img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-green);
+        }
+
+        .footer-brand div {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .footer-brand .name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .footer-brand .sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-green);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-bottom a {
+            color: var(--accent-green);
+            text-decoration: none;
+        }
+
+        /* ===== ANIMATIONS ON SCROLL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .server-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .server-logo-box {
+                margin: 0 auto;
+            }
+            .trade-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: rgba(5, 12, 8, 0.98);
+                flex-direction: column;
+                padding: 5rem 2rem 2rem;
+                transition: var(--transition-smooth);
+                border-left: 1px solid var(--glass-border);
+                gap: 0.5rem;
+            }
+            .nav-links.open {
+                right: 0;
+            }
+            .nav-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+            .nav-toggle.open span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            .nav-toggle.open span:nth-child(2) {
+                opacity: 0;
+            }
+            .nav-toggle.open span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+            .hero-title {
+                letter-spacing: 6px;
+            }
+            .hero-logo {
+                width: 140px;
+                height: 140px;
+            }
+            .hero-logo-ring {
+                width: 180px;
+                height: 180px;
+            }
+            .hero-logo-ring-2 {
+                width: 210px;
+                height: 210px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-container {
+                padding: 0 0.5rem;
+            }
+            .hero {
+                padding: 5rem 1rem 3rem;
+            }
+            .btn {
+                width: 100%;
+            }
+            .hero-cta {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+
+        /* ===== EXTRA DECORATIVE ELEMENTS ===== */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.15), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            top: 10%;
+            right: -100px;
+            animation: floatShape 15s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            bottom: 20%;
+            left: -80px;
+            animation: floatShape 18s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatShape {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -40px) scale(1.1); }
+        }
+
+        /* ===== LOADING / EXTRA STYLES FOR LENGTH ===== */
+        .divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+            margin: 1.5rem auto;
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, var(--accent-green), var(--bright-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
+        }
+
+        /* Multiple keyframe variations for richness */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes glowPulse {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(46, 204, 113, 0.4)); }
+            50% { filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.7)); }
+        }
+        @keyframes borderGlow {
+            0%, 100% { border-color: rgba(46, 204, 113, 0.3); }
+            50% { border-color: rgba(57, 255, 20, 0.6); }
+        }
+        @keyframes textFlicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 1; }
+            93% { opacity: 0.7; }
+            94% { opacity: 1; }
+            96% { opacity: 0.8; }
+            97% { opacity: 1; }
+        }
+
+        .animate-glow {
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        .animate-border {
+            animation: borderGlow 4s ease-in-out infinite;
+        }
+
+        /* Extra utility classes */
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .flex { display: flex; }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+        .gap-1 { gap: 0.5rem; }
+        .gap-2 { gap: 1rem; }
+        .gap-3 { gap: 1.5rem; }
+
+        /* Decorative lines */
+        .deco-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+            margin: 2rem 0;
+        }
+
+        /* Status indicators */
+        .online-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--bright-green);
+        }
+
+        .online-indicator::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--bright-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--bright-green);
+            animation: dotBlink 1.5s infinite;
+        }
+
+        /* Quote style */
+        .quote-block {
+            position: relative;
+            padding: 2rem 2.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            margin: 2rem 0;
+        }
+
+        .quote-block::before {
+            content: '"';
+            font-family: Georgia, serif;
+            font-size: 4rem;
+            color: var(--accent-green);
+            opacity: 0.3;
+            position: absolute;
+            top: 0.5rem;
+            left: 1rem;
+            line-height: 1;
+        }
+
+        .quote-block p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-main);
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        /* Extra spacing and visual rhythm */
+        .content-spacer {
+            height: 2rem;
+        }
+
+        /* Hover lift effect */
+        .hover-lift {
+            transition: var(--transition-smooth);
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Gradient border trick */
+        .gradient-border {
+            position: relative;
+            background: var(--glass-bg);
+            border-radius: 16px;
+        }
+        .gradient-border::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--accent-green), transparent, var(--primary-green));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* More animation variants */
+        @keyframes slideInFromBottom {
+            0% { transform: translateY(100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes rotateIn {
+            0% { transform: rotate(-10deg) scale(0.8); opacity: 0; }
+            100% { transform: rotate(0) scale(1); opacity: 1; }
+        }
+        @keyframes blurIn {
+            0% { filter: blur(10px); opacity: 0; }
+            100% { filter: blur(0); opacity: 1; }
+        }
+
+        /* Particle-like dots decoration */
+        .dots-decoration {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .dots-decoration span {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: dotBlink 1.8s infinite;
+        }
+        .dots-decoration span:nth-child(2) { animation-delay: 0.3s; }
+        .dots-decoration span:nth-child(3) { animation-delay: 0.6s; }
+
+        /* Final polish classes */
+        .section-bg-alt {
+            background: linear-gradient(180deg, transparent 0%, rgba(13, 59, 30, 0.1) 50%, transparent 100%);
+        }
+
+        .card-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .card-grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== EXTRA ANIMATIONS ===== */
+        /* Cursor glow trail */
+        .cursor-glow {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            opacity: 0;
+            mix-blend-mode: screen;
+        }
+        .cursor-glow.active {
+            opacity: 1;
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(40px);
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.25;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+        .orb-1 {
+            width: 280px;
+            height: 280px;
+            background: var(--accent-green);
+            top: 15%;
+            left: 10%;
+            animation-duration: 22s;
+        }
+        .orb-2 {
+            width: 200px;
+            height: 200px;
+            background: var(--primary-green);
+            bottom: 20%;
+            right: 8%;
+            animation-duration: 18s;
+            animation-delay: -5s;
+        }
+        .orb-3 {
+            width: 160px;
+            height: 160px;
+            background: var(--bright-green);
+            top: 55%;
+            left: 70%;
+            animation-duration: 25s;
+            animation-delay: -10s;
+            opacity: 0.15;
+        }
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(40px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 30px) scale(0.95); }
+            75% { transform: translate(20px, 40px) scale(1.05); }
+        }
+
+        /* Scanline overlay */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+            opacity: 0.4;
+        }
+
+        /* Magnetic card hover boost */
+        .glass-card {
+            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        box-shadow 0.35s ease,
+                        border-color 0.35s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.015);
+        }
+
+        /* Button ripple */
+        .btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(0);
+            animation: rippleAnim 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes rippleAnim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Text shimmer on titles */
+        .section-title {
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            animation: titleShimmer 5s ease-in-out infinite;
+        }
+        @keyframes titleShimmer {
+            0%, 60% { left: -100%; }
+            100% { left: 150%; }
+        }
+
+        /* Badge pulse ring */
+        .badge {
+            position: relative;
+        }
+        .badge::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50px;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            opacity: 0;
+            animation: badgeRing 3s ease-out infinite;
+        }
+        @keyframes badgeRing {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.15); }
+        }
+
+        /* Hero title letter glow */
+        .hero-title {
+            animation: titleShine 6s linear infinite, titleGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 10px rgba(46, 204, 113, 0.3)); }
+            to { filter: drop-shadow(0 0 25px rgba(57, 255, 20, 0.55)); }
+        }
+
+        /* Soft parallax on scroll for cards */
+        .parallax-card {
+            transition: transform 0.1s linear;
+        }
+
+        /* Section entrance line */
+        .section-header .divider {
+            animation: dividerExpand 1.2s ease-out forwards;
+            transform-origin: center;
+        }
+        @keyframes dividerExpand {
+            from { transform: scaleX(0); opacity: 0; }
+            to { transform: scaleX(1); opacity: 1; }
+        }
+
+        /* Nav link underline animation boost */
+        .nav-links a {
+            transition: color 0.3s ease, background 0.3s ease, letter-spacing 0.3s ease;
+        }
+        .nav-links a:hover {
+            letter-spacing: 2px;
+        }
+
+        /* Loading fade-in for whole page */
+        body {
+            animation: pageFadeIn 1s ease-out;
+        }
+        @keyframes pageFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Member avatar continuous soft pulse */
+        .member-avatar {
+            animation: avatarPulse 4s ease-in-out infinite;
+        }
+        @keyframes avatarPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(46, 204, 113, 0.3); }
+            50% { box-shadow: 0 0 35px rgba(57, 255, 20, 0.55); }
+        }
+
+        /* Trade icon extra bounce */
+        .trade-icon {
+            animation: iconFloat 3s ease-in-out infinite, iconGlow 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes iconGlow {
+            from { box-shadow: 0 8px 30px rgba(46, 204, 113, 0.4); }
+            to { box-shadow: 0 8px 45px rgba(57, 255, 20, 0.65); }
+        }
+
+        /* Status badge subtle scale */
+        .status {
+            transition: transform 0.3s ease;
+        }
+        .relation-card:hover .status {
+            transform: scale(1.08);
+        }
+
+        /* Smooth number/counter feel for details */
+        .detail-item span {
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        .detail-item:hover span {
+            color: #fff;
+            text-shadow: 0 0 12px var(--bright-green);
+        }
+
+        /* End of extensive CSS for rich visual experience */
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="bg-wrapper">
+        <div class="bg-image"></div>
+        <div class="bg-overlay"></div>
+        <canvas id="particles-canvas"></canvas>
+    </div>
+
+    <!-- Floating shapes -->
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+
+    <!-- Ambient orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Scanlines + cursor glow -->
+    <div class="scanlines"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <img src="https://cdn.imgpile.com/f/1fL8LXG_lg.webp" alt="Воля Logo">
+                <span>ВОЛЯ</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active">Головна</a></li>
+                <li><a href="#about">Історія</a></li>
+                <li><a href="#relations">Відносини</a></li>
+                <li><a href="#composition">Склад</a></li>
+                <li><a href="#trade">Торгівля</a></li>
+                <li><a href="#server">Сервер</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-logo-wrapper">
+                <div class="hero-logo-ring"></div>
+                <div class="hero-logo-ring hero-logo-ring-2"></div>
+                <img src="https://cdn.imgpile.com/f/1fL8LXG_xl.webp" alt="Воля" class="hero-logo">
+            </div>
+            <h1 class="hero-title">ВОЛЯ</h1>
+            <p class="hero-subtitle">Угрупування • ГП • Свобода Зони</p>
+            <p class="hero-tagline">
+                Анархістське угрупування вільних сталкерів. Ми боремося за вільну Зону — без військових монополій, без таємниць від людства. Зона належить тим, хто готовий її досліджувати.
+            </p>
+            <div class="hero-badges">
+                <div class="badge"><span class="badge-dot"></span> Анархісти</div>
+                <div class="badge"><span class="badge-dot"></span> Дослідники</div>
+                <div class="badge"><span class="badge-dot"></span> Боротьба за свободу</div>
+                <div class="badge"><span class="badge-dot"></span> Tales of Zone</div>
+            </div>
+            <div class="hero-cta">
+                <a href="#about" class="btn btn-primary">Дізнатися більше</a>
+                <a href="#trade" class="btn btn-outline">Торгівля угрупування</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>ПРОКРУТИТИ</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT / HISTORY -->
+    <section id="about" class="section-bg-alt">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-label">Про угрупування</span>
+                <h2 class="section-title">Історія <span>ВОЛІ</span></h2>
+                <div class="divider"></div>
+                <p class="section-desc">Шлях від шибайголов до потужної сили, що захищає свободу Зони</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-text reveal reveal-delay-1">
+                    <p>
+                        Історія <strong>«ВОЛІ»</strong> починається з того, що вони виникли як анархісти та шибайголови, які оголосили себе борцями за свободу на території Зони. З часом вони стали потужною організацією, що працює за власними правилами та цілями.
+                    </p>
+                    <p>
+                        <strong>«Волівці»</strong> вважають, що інформацію про те, що відбувається в Зоні, не можна приховувати від людства, таким чином заперечуючи монополію урядових організацій на володіння тутешніми таємницями та чудесами.
+                    </p>
+                    <div class="about-highlight">
+                        Зона — чудова можливість для дослідження та вивчення, і вона не має бути територією військових. «Воля» вважає, що Зону не можна приховувати від решти світу.
+                    </div>
+                    <p>
+                        «ВОЛЯ» також може бути надзвичайно ефективною у своїх діях та надійним союзником. Угрупування не має жорсткої ієрархії, але під час виконання завдання всі бійці повинні слухати старшого по званню.
+                    </p>
+                    <p>
+                        Представники «Волі» вважають, що Зону неможливо знищити — з нею можливо і потрібно співіснувати. Вони бажають «встряхнути» людей на «Великій Землі», щоб ті дізнались правду.
+                    </p>
+                </div>
+
+                <div class="info-blocks reveal reveal-delay-2">
+                    <div class="glass-card">
+                        <div class="info-block">
+                            <div class="info-icon">🐺</div>
+                            <div>
+                                <h4>Ідеологія</h4>
+                                <p>Анархізм, свобода досліджень, протистояння монополії влади. Зона має бути відкритою.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="info-block">
+                            <div class="info-icon">🔬</div>
+                            <div>
+                                <h4>Дослідження</h4>
+                                <p>Заміри радіаційного фону, температури, вологості, присутність монстрів та аномалій.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="info-block">
+                            <div class="info-icon">💬</div>
+                            <div>
+                                <h4>Сленг</h4>
+                                <p>Власний сленг з запозиченими словами з інших мов, частіше з англійської.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="info-block">
+                            <div class="info-icon">🔫</div>
+                            <div>
+                                <h4>Постачання</h4>
+                                <p>Особисті постачальники забезпечують костюми, зброю та спорядження для бійців.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-block reveal mt-4">
+                <p>
+                    По словам Локі, верхівка угрупування складається з колишніх хіппі, хоча угрупування й називає себе анархістським. «Воля» — це не просто фракція. Це ідея вільної Зони.
+                </p>
+                <span class="quote-author">— З хронік угрупування</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- RELATIONS -->
+    <section id="relations">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-label">Дипломатія</span>
+                <h2 class="section-title">Відносини з <span>угрупуваннями</span></h2>
+                <div class="divider"></div>
+                <p class="section-desc">Хто друг, хто ворог, а з ким тримаємо нейтралітет у Зоні</p>
+            </div>
+
+            <div class="relations-grid">
+                <div class="glass-card relation-card reveal reveal-delay-1">
+                    <span class="status status-enemy">Ворожі</span>
+                    <h3>Противники</h3>
+                    <ul>
+                        <li>Долг</li>
+                        <li>Військові</li>
+                    </ul>
+                    <p class="mt-2" style="font-size:0.9rem;color:var(--text-muted);">Постійний конфлікт через ідеологічні розбіжності щодо контролю над Зоною.</p>
+                </div>
+
+                <div class="glass-card relation-card reveal reveal-delay-2">
+                    <span class="status status-neutral">Нейтральні</span>
+                    <h3>Нейтралітет</h3>
+                    <ul>
+                        <li>Нейтрали</li>
+                        <li>Найманці</li>
+                        <li>Чисте небо</li>
+                        <li>Вчені</li>
+                        <li>Бандити</li>
+                    </ul>
+                    <p class="mt-2" style="font-size:0.9rem;color:var(--text-muted);">Офіційно нейтральна позиція. Можлива співпраця за обставинами.</p>
+                </div>
+
+                <div class="glass-card relation-card reveal reveal-delay-3">
+                    <span class="status status-friend">Дружні</span>
+                    <h3>Союзники</h3>
+                    <ul>
+                        <li>—</li>
+                    </ul>
+                    <p class="mt-2" style="font-size:0.9rem;color:var(--text-muted);">Наразі немає офіційних постійних союзників. Ми відкриті до співпраці з тими, хто поділяє ідею вільної Зони.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPOSITION -->
+    <section id="composition" class="section-bg-alt">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-label">Бійці</span>
+                <h2 class="section-title">Склад <span>угрупування</span></h2>
+                <div class="divider"></div>
+                <p class="section-desc">Ті, хто стоїть на сторожі свободи Зони. Склад оновлюється.</p>
+            </div>
+
+            <div class="composition-grid">
+                <div class="glass-card member-card reveal">
+                    <div class="member-avatar">🐺</div>
+                    <h4>Лідер</h4>
+                    <div class="member-role">Командування</div>
+                    <p class="member-desc">Верхівка угрупування. Колишні хіппі, які стали борцями за свободу.</p>
+                </div>
+                <div class="glass-card member-card reveal reveal-delay-1">
+                    <div class="member-avatar">⚡</div>
+                    <h4>Офіцери</h4>
+                    <div class="member-role">Старші бійці</div>
+                    <p class="member-desc">Керують групами під час завдань. Досвідчені сталкери.</p>
+                </div>
+                <div class="glass-card member-card reveal reveal-delay-2">
+                    <div class="member-avatar">🔫</div>
+                    <h4>Бійці</h4>
+                    <div class="member-role">Основний склад</div>
+                    <p class="member-desc">Вільні сталкери, що обрали шлях «Волі». Готові захищати ідею.</p>
+                </div>
+                <div class="glass-card member-card reveal reveal-delay-3">
+                    <div class="member-avatar">📦</div>
+                    <h4>Постачальники</h4>
+                    <div class="member-role">Логістика</div>
+                    <p class="member-desc">Забезпечують угрупування зброєю, костюмами та ресурсами.</p>
+                </div>
+                <div class="placeholder-note reveal">
+                    Повний список бійців та актуальний склад ведеться в таблицях угрупування. Приєднуйся та стань частиною «Волі».
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRADE -->
+    <section id="trade" class="trade-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-label">Економіка</span>
+                <h2 class="section-title">Торгівля <span>угрупування</span></h2>
+                <div class="divider"></div>
+                <p class="section-desc">Таблиця торгівлі «Волі». Подавай заявки та перевіряй актуальні пропозиції.</p>
+            </div>
+
+            <div class="trade-cards">
+                <div class="glass-card trade-card reveal reveal-delay-1">
+                    <div class="trade-icon">📝</div>
+                    <h3>Подати в таблицю</h3>
+                    <p>Додай свою пропозицію, товар або запит до спільної таблиці торгівлі угрупування «Воля».</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6wHFGNpT_w1eJN6JoD9jM5KpO2DDgQw73VE-4miTY1LzHLw/viewform?usp=header" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="btn btn-primary btn-trade">
+                        Подати заявку
+                    </a>
+                </div>
+
+                <div class="glass-card trade-card reveal reveal-delay-2">
+                    <div class="trade-icon">🔍</div>
+                    <h3>Перевірити таблицю</h3>
+                    <p>Переглянь актуальний стан таблиці: пропозиції, запити та угоди між бійцями «Волі».</p>
+                    <a href="https://docs.google.com/spreadsheets/d/1vu7IPPtbtI-UnKUEyTKiJ-Sl17Ca9QFqywYcRuzONDk/edit?usp=sharing" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="btn btn-outline btn-trade">
+                        Відкрити таблицю
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVER -->
+    <section id="server">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-label">Підключення</span>
+                <h2 class="section-title">Сервер <span>Tales of Zone</span></h2>
+                <div class="divider"></div>
+                <p class="section-desc">Де ми граємо. Приєднуйся до RP-проекту в світі S.T.A.L.K.E.R.</p>
+            </div>
+
+            <div class="glass-card server-card reveal">
+                <div class="server-logo-box">
+                    <img src="https://cdn.imgpile.com/f/VGPQ8dt_xl.webp" alt="Tales of Zone Logo">
+                </div>
+                <div class="server-info">
+                    <h3>На якому сервері граємо</h3>
+                    <p class="server-name">[UA] STALKER: Tales of Zone | RP</p>
+                    
+                    <div class="server-details">
+                        <div class="detail-item">
+                            <label>Назва в лаунчері</label>
+                            <span>[UA] STALKER: Tales of Zone | RP</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>IP-адреса</label>
+                            <span id="serverIp">91.244.197.103</span>
+                            <button class="copy-btn" onclick="copyText('91.244.197.103')">Копіювати</button>
+                        </div>
+                        <div class="detail-item">
+                            <label>Порт</label>
+                            <span>2302</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Статус</label>
+                            <span class="online-indicator">Онлайн / RP</span>
+                        </div>
+                    </div>
+
+                    <p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:1.5rem;">
+                        Якщо не знаходить через назву — вводь IP напряму в лаунчері DayZ.
+                    </p>
+
+                    <div class="hero-cta" style="justify-content:flex-start;">
+                        <a href="#trade" class="btn btn-primary">Торгівля Волі</a>
+                        <a href="#home" class="btn btn-outline">Нагору</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="https://cdn.imgpile.com/f/1fL8LXG_lg.webp" alt="Воля">
+                <div>
+                    <div class="name">ВОЛЯ</div>
+                    <div class="sub">ГП • Tales of Zone</div>
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="#home">Головна</a>
+                <a href="#about">Історія</a>
+                <a href="#composition">Склад</a>
+                <a href="#trade">Торгівля</a>
+                <a href="#server">Сервер</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Угрупування «Воля» • Сервер <a href="#server">[UA] STALKER: Tales of Zone | RP</a></p>
+            <p style="margin-top:0.5rem;font-size:0.8rem;">Зона належить вільним. Анархія — мати порядку.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== PARTICLES =====
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let w, h;
+
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.life = Math.random() * 200 + 100;
+                this.maxLife = this.life;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life--;
+                if (this.life <= 0 || this.x < 0 || this.x > w || this.y < 0 || this.y > h) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(46, 204, 113, ${this.opacity * (this.life / this.maxLife)})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 110; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, w, h);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            // soft connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(46, 204, 113, ${0.08 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ===== MOBILE MENU =====
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('open');
+            navLinks.classList.toggle('open');
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('open');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // ===== ACTIVE NAV LINK =====
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === '#' + current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+
+        // ===== REVEAL ON SCROLL =====
+        const reveals = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                if (top < windowHeight - 80) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        window.addEventListener('load', checkReveal);
+        checkReveal();
+
+        // ===== COPY FUNCTION =====
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const original = btn.textContent;
+                btn.textContent = 'Скопійовано!';
+                btn.style.background = 'var(--accent-green)';
+                btn.style.color = '#000';
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.style.background = 'transparent';
+                    btn.style.color = 'var(--accent-green)';
+                }, 1800);
+            });
+        }
+
+        // ===== SMOOTH ANCHOR =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== CURSOR GLOW =====
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = 0, mouseY = 0;
+        let glowX = 0, glowY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorGlow.classList.add('active');
+        });
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.classList.remove('active');
+        });
+        function animateCursor() {
+            glowX += (mouseX - glowX) * 0.12;
+            glowY += (mouseY - glowY) * 0.12;
+            cursorGlow.style.left = glowX + 'px';
+            cursorGlow.style.top = glowY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // ===== BUTTON RIPPLE =====
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // ===== PARALLAX ON CARDS =====
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 25;
+                const rotateY = (centerX - x) / 25;
+                this.style.transform = `translateY(-8px) scale(1.015) perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+
+        // Extra console message
+        console.log('%c ВОЛЯ | ГП | Tales of Zone ', 'background: #1a7a3a; color: #39ff14; font-size: 14px; padding: 8px 16px; border-radius: 4px;');
+        console.log('%c Зона належить вільним. ', 'color: #2ecc71; font-size: 12px;');
+    </script>
+</body>
+</html>
